@@ -1,54 +1,15 @@
 {
-	"name": "authserver",
-	"version": "1.0.0",
-	"description": "",
-	"main": "dist/auth-server.js",
-	"scripts": {
-		"build": "tsc",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node dist/auth-server.js",
-		"watch-build": "tsc -w",
-		"watch-start": "npm run build && nodemon --watch dist/**/*.js"
-	},
-	"author": "Clint Cain",
-	"license": "ISC",
-	"devDependencies": {
-		"@types/body-parser": "^1.17.0",
-		"@types/dateformat": "^1.0.1",
-		"@types/express": "^4.16.0",
-		"@types/jsonwebtoken": "^8.3.0",
-		"@types/mongoose": "^5.3.5",
-		"@types/winston": "^2.4.4",
-		"@types/request": "^2.48.1",
-		"nodemon": "^1.18.8",
-		"ts-node": "^7.0.1",
-		"tslint": "^5.12.0",
-		"typescript": "^3.2.2"
-	},
-	"dependencies": {
-		"body-parser": "^1.18.3",
-		"crypto": "^1.0.1",
-		"dateformat": "^3.0.3",
-		"express": "^4.16.4",
-		"jsonwebtoken": "^8.4.0",
-		"mongoose": "^5.4.0",
-		"mongoose-timestamp": "^0.6.0",
-		"request": "^2.88.0",
-		"winston": "^3.1.0",
-		"winston-mongodb": "^4.0.3"
-	},
-	"csgsc": {
-		"server": "t4pInRQaHWQQAra5",
-		"keys": [
-			{
-				"key": "TheKey",
-				"value": "7a23e20458127295801bd497b0d994b1"
-			},
-			{
-				"key": "TheKey2",
-				"value": "3a991e1f3cdf5fdbc830eef12d85b030"
-			}
-		],
-		"reveal": false
-	}
+  "name": "cs-git-secret-crypt",
+  "version": "1.0.0",
+  "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. NOTE: This is just a basic option, use git-secret or git-crypt for advanced options.",
+  "main": "csgsc.js",
+  "dependencies": {
+    "command-line-args": "^5.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Clint Cain",
+  "license": "ISC"
 }
