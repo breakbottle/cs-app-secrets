@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const fs = require('fs')
+const util = require('util');
 
 class csGitSecretCrypt{
     //todo: rewrite in TypeScript as I want to use this now.
@@ -18,7 +19,7 @@ class csGitSecretCrypt{
             noticeReveal: "NOTE: All secrets will be revealed in the config file, ready to be used. (Cannot be undone)",
             revealAll:"All secrets are revealed in %s",
             revealAlready:"All secrets already revealed!",
-            systemCheck:"Config doesn't contain data, please run 'init'",
+            systemCheck:"Config file %s doesn't contain data, please run 'init'",
             decryptFailed: "Decryption failed! ensure you're using the correct secret.(NOTE: All values should be encrypted with the same secret which can be used for decryption, if your encrypted values are in the key list, with a different secrets you cannot use `revealAll`. If using `get` ensure correct secret that was used for encryption. )"
         }
     }
@@ -161,17 +162,17 @@ class csGitSecretCrypt{
     //private
     check(file){
         const config = file || this.defaultFile;
-
+       
         const configContents = this.readConfigs(config);
         if(!configContents.csgsc)
-            throw new Error(this.messages.systemCheck);
+            throw new Error(util.format(this.messages.systemCheck,config));
         return {
             config:config,
             contents:configContents
         }
     }
     readConfigs(configFile){
-        return require("./"+configFile);
+        return require(process.cwd()+"/"+configFile);
     }
     /**
      * write JSON configs

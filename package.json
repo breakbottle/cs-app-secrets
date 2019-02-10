@@ -4,7 +4,8 @@
   "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. NOTE: This is just a basic option, use git-secret or git-crypt for advanced options.",
   "main": "csgsc.js",
   "dependencies": {
-    "command-line-args": "^5.0.2"
+    "command-line-args": "^5.0.2",
+    "prompt-confirm": "^2.0.4"
   },
   "devDependencies": {},
   "scripts": {

@@ -9,8 +9,6 @@ const optionDefinitions = [
 const commandLineArgs = require('command-line-args');
 const csGitSecretCrypt = require("./csGitSecretCrypt");
 const csgsc = new csGitSecretCrypt();
-
-
 try{
     const options = commandLineArgs(optionDefinitions)
     console.log("Executed options are: ",options)

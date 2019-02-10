@@ -1,7 +1,12 @@
 if not global
 
-node ../cs-git-secret-crypt/csgsc --init ../cain-IoT/package.json
+node node_modules/cs-git-secret-crypt --init
 
-uVdVb+CRY/wNYI/R1vGe21W6tY26GOk9
+gNTvxjf69AQjGfgMT3eoBLAKW64Gc5AE
 
- node ../cs-git-secret-crypt/csgsc --add authServerAPIKey CainIoT ../cain-IoT/package.json --secret uVdVb+CRY/wNYI/R1vGe21W6tY26GOk9
+node node_modules/cs-git-secret-crypt --add authServerAPIKey CainIoT --secret gNTvxjf69AQjGfgMT3eoBLAKW64Gc5AE
+
+
+use in app
+set CSGSC_SECRET=gNTvxjf69AQjGfgMT3eoBLAKW64Gc5AE
+csGitSecretCrypt.get('authServerAPIKey')
