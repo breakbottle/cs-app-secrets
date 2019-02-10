@@ -1,7 +1,7 @@
 {
   "name": "cs-git-secret-crypt",
-  "version": "1.0.0",
-  "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. NOTE: This is just a basic option, use git-secret or git-crypt for advanced options.",
+  "version": "0.1.0",
+  "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. NOTE: This is just a basic option, use git-secret or git-crypt for advanced options.{I'm not affiliated with git-secret or git-crypt}",
   "main": "csgsc.js",
   "dependencies": {
     "command-line-args": "^5.0.2",
@@ -11,6 +11,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breakbottle/cs-git-secret-crypt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/breakbottle/cs-git-secret-crypt/issues"
+  },
+  "homepage": "https://github.com/breakbottle/cs-git-secret-crypt#readme",
   "author": "Clint Cain",
   "license": "ISC"
 }
