@@ -323,7 +323,7 @@ class csAppSecrets{
         if(!configContents.csas)
             throw new Error(util.format(this.messages.systemCheck,config));
 
-        this.secret = process.env[configContents.csas.env] || undefined;
+        this.secret = process.env[configContents.csas.env] || this.secret;
 
         return {
             config:config,
