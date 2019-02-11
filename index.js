@@ -1,4 +1,4 @@
-const csGitSecretCrypt = require("./csGitSecretCrypt");
-const csgsc = new csGitSecretCrypt();
+const csAppSecrets = require("./csAppSecrets");
+const csas = new csAppSecrets();
 
-module.exports = csgsc;
+module.exports = csas;

@@ -1,13 +1,15 @@
 {
   "name": "cs-app-secrets",
-  "version": "0.2.1",
-  "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. NOTE: This is just a basic option, use git-secret or git-crypt for advanced options.{I'm not affiliated with git-secret or git-crypt}",
+  "version": "0.2.9",
+  "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. Well used as a master key for build systems such as Jenkins etc & global secure.",
   "main": "csas.js",
   "dependencies": {
     "command-line-args": "^5.0.2",
     "prompt-confirm": "^2.0.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cs-json-version": "^0.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

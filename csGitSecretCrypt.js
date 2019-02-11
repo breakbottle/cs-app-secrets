@@ -4,9 +4,9 @@ const util = require('util');
 const Confirm = require('prompt-confirm');
  
 
-class csGitSecretCrypt{
+class csAppSecrets{
     //TODO: rewrite in TypeScript as I want to use this now.
-    //TODO:docs: must install golabally for it to look at cwd package.json else config file will need the full path of config file. 
+    //TODO:docs: must install globally for it to look at cwd package.json else config file will need the full path of config file. 
     //defaultFile = 'package.json';//format for ts
     constructor(){
         this.defaultFile = 'package.json';
@@ -15,7 +15,7 @@ class csGitSecretCrypt{
             applicationNameRequired:"Please provide an application name",
             configNotFound:"Warning, config file [%s] specified not found, using default package.json.",
             fileNotFound:"Operation cancelled because cannot find file %s",
-            savedConfigSuccess:"\n Store **secret** in safe place-> %s. Set your Environment Varible before you run your apps. example; \n\t %s \n\t %s \n",
+            savedConfigSuccess:"\n Store **secret** in safe place-> %s. Set your Environment Variable before you run your apps. example; \n\t %s \n\t %s \n",
             noSecretProvided:"Error: Secret was not specified.",
             invalidSecret:"Error: Secret provided is invalid",
             savedKeyValue:"[%s] value is [%s]",
@@ -38,7 +38,7 @@ class csGitSecretCrypt{
     }
     /**
      * Initialize the config file
-     * @param {string} appName The short name of the applciation 
+     * @param {string} appName The short name of the application 
      * @param {string} configFile Optional config file path
      */
     init(appName,configFile){ 
@@ -63,14 +63,14 @@ class csGitSecretCrypt{
         const serverKeyReady = crypto.createHash("sha256").update(serverKey, "utf8").digest("base64");
         const secret = crypto.createHash("sha256").update(crypto.randomBytes(32), "utf8").digest("base64").substr(0,32);
         
-        configContents.csgsc = configContents.csgsc || {};
-        configContents.csgsc.server = serverKeyReady.substr(0,16);
-        configContents.csgsc.keys = [];
-        configContents.csgsc.reveal = false;
-        configContents.csgsc.env = "CSGSC_"+appName.toLocaleUpperCase()+"_SECRET";
+        configContents.csas = configContents.csas || {};
+        configContents.csas.server = serverKeyReady.substr(0,16);
+        configContents.csas.keys = [];
+        configContents.csas.reveal = false;
+        configContents.csas.env = "CSAS_"+appName.toLocaleUpperCase()+"_SECRET";
         
         this.writeConfigs(config,configContents);
-        console.log(this.messages.savedConfigSuccess,secret,"Windows: set "+configContents.csgsc.env+"="+secret,"Other: export "+configContents.csgsc.env+"="+secret);
+        console.log(this.messages.savedConfigSuccess,secret,"Windows: set "+configContents.csas.env+"="+secret,"Other: export "+configContents.csas.env+"="+secret);
 
     };
     /**
@@ -90,7 +90,7 @@ class csGitSecretCrypt{
             let fileValue;
             const pat = new RegExp("^file$",'i');
             
-            if(vConfig.contents.csgsc.keys.filter(v=>(v.key === key && v.status === this.statuses.encrypted)).length){
+            if(vConfig.contents.csas.keys.filter(v=>(v.key === key && v.status === this.statuses.encrypted)).length){
                 console.log(this.messages.keyAlreadyEncrypted,key);
                 return false;
             }
@@ -105,7 +105,7 @@ class csGitSecretCrypt{
                     if(err)
                         throw new Error(util.format(this.messages.fileOperationError,'read',err));
 
-                    fileValue = this.encrypt(data,this.secret,vConfig.contents.csgsc.server);
+                    fileValue = this.encrypt(data,this.secret,vConfig.contents.csas.server);
                     fs.writeFile(fileToEncrypt,fileValue,(err)=>{
                         if(err)
                             throw new Error(util.format(this.messages.fileOperationError,'write',err));
@@ -116,7 +116,7 @@ class csGitSecretCrypt{
                 })
             } else {
                 //Assume string
-                encryptedValue = this.encrypt(value,this.secret,vConfig.contents.csgsc.server);
+                encryptedValue = this.encrypt(value,this.secret,vConfig.contents.csas.server);
                 this.saveEncrypted(key,'String',vConfig,encryptedValue);
             }
 
@@ -136,14 +136,14 @@ class csGitSecretCrypt{
         if(!this.secret)
             throw new Error(this.messages.noSecretProvided);
         if(this.secret.length == 32){
-            const configItem = vConfig.contents.csgsc.keys.filter((v)=>{return v.key == key})[0];
+            const configItem = vConfig.contents.csas.keys.filter((v)=>{return v.key == key})[0];
             if(configItem){
                 try{
                     const type = configItem.type || "String";
                     if(type == 'File'){
                         try{
                             const fileContent = fs.readFileSync(process.cwd()+"/"+configItem.value).toString("Utf8");
-                            value = configItem.status === this.statuses.encrypted ? this.decrypt(fileContent,this.secret,vConfig.contents.csgsc.server): fileContent;
+                            value = configItem.status === this.statuses.encrypted ? this.decrypt(fileContent,this.secret,vConfig.contents.csas.server): fileContent;
                            
                         }catch(e){
                             console.error(this.messages.fileOperationError,'read',e.message)
@@ -151,7 +151,7 @@ class csGitSecretCrypt{
    
                     } else {
                         //String
-                        value = configItem.status === this.statuses.encrypted ? this.decrypt(configItem.value,this.secret,vConfig.contents.csgsc.server):configItem.value;
+                        value = configItem.status === this.statuses.encrypted ? this.decrypt(configItem.value,this.secret,vConfig.contents.csas.server):configItem.value;
                     }
                     if(showConsole && showConsole != 'false')
                         console.log(this.messages.savedKeyValue,key,value);
@@ -183,8 +183,8 @@ class csGitSecretCrypt{
           
         if(updateFiles){
             const prompt = new Confirm(util.format(this.messages.confirmReveal,vConfig.config));
-            if(!vConfig.contents.csgsc.reveal){ 
-                    vConfig.contents.csgsc.reveal = true;
+            if(!vConfig.contents.csas.reveal){ 
+                    vConfig.contents.csas.reveal = true;
                     console.log(this.messages.noticeReveal);
                     const _this = this;
                     prompt.ask(function(answer) {
@@ -214,14 +214,14 @@ class csGitSecretCrypt{
             else 
                 console.log(this.messages.revealAlready)
         } else {
-            vConfig.contents.csgsc.keys.forEach((secret,index)=>{
+            vConfig.contents.csas.keys.forEach((secret,index)=>{
                 secret.value = this.get(secret.key,true);
-                vConfig.contents.csgsc.keys[index] = secret;
+                vConfig.contents.csas.keys[index] = secret;
             });
         }
     }
     revealSync(vConfig){
-        vConfig.contents.csgsc.keys.forEach((secret,index)=>{
+        vConfig.contents.csas.keys.forEach((secret,index)=>{
             if(secret.type === 'File'){
                 const value = this.get(secret.key,true);
                 fs.writeFileSync(process.cwd()+"/"+secret.value,value);
@@ -230,7 +230,7 @@ class csGitSecretCrypt{
             }
             secret.status = this.statuses.raw;
             
-            vConfig.contents.csgsc.keys[index] = secret;
+            vConfig.contents.csas.keys[index] = secret;
         });
         //save main file
         this.writeConfigs(vConfig.config,vConfig.contents);
@@ -242,7 +242,7 @@ class csGitSecretCrypt{
     help(){
         console.log(`
             Use 'node' prefix if not installed globally or not running from package.json
-            usage: csgsc [--init <appName> <config-file?>]  
+            usage: csas [--init <appName> <config-file?>]  
                          [--add <key> <value> <type> <config-file?>]  [--secret <key>]
                          [--get <key> <config-file?>]  [--secret <key>]
                          [--revealAll <updateFileValues> <config-file?>]  [--secret <key>]
@@ -291,9 +291,9 @@ class csGitSecretCrypt{
      * @param {*} encryptedValue 
      */
     saveEncrypted(key,type,vConfig,encryptedValue){
-        const found =vConfig.contents.csgsc.keys.filter((v)=>{return v.key == key});
+        const found =vConfig.contents.csas.keys.filter((v)=>{return v.key == key});
         if(found.length >=1){
-            vConfig.contents.csgsc.keys.map(v=>{
+            vConfig.contents.csas.keys.map(v=>{
                 if(v.key === key){
                     v.value = encryptedValue;
                     v.type = type;
@@ -302,14 +302,14 @@ class csGitSecretCrypt{
                 return v;
             });
         } else {
-            vConfig.contents.csgsc.keys.push({
+            vConfig.contents.csas.keys.push({
                 key:key,
                 value:encryptedValue,
                 type:type,
                 status:this.statuses.encrypted
             });
         }
-        vConfig.contents.csgsc.reveal = false;
+        vConfig.contents.csas.reveal = false;
         this.writeConfigs(vConfig.config,vConfig.contents);
     }
     /**
@@ -320,10 +320,10 @@ class csGitSecretCrypt{
         const config = file || this.defaultFile;
        
         const configContents = this.readConfigs(config);
-        if(!configContents.csgsc)
+        if(!configContents.csas)
             throw new Error(util.format(this.messages.systemCheck,config));
 
-        this.secret = process.env[configContents.csgsc.env] || undefined;
+        this.secret = process.env[configContents.csas.env] || undefined;
 
         return {
             config:config,
@@ -345,8 +345,8 @@ class csGitSecretCrypt{
     writeConfigs(configFile,contents){
         fs.writeFile(configFile, JSON.stringify(contents,null,'\t'), function (err) {
             if (err) return console.log(err);
-            console.log('writing to ' + configFile,JSON.stringify(contents.csgsc,null,'\t'));
+            console.log('writing to ' + configFile,JSON.stringify(contents.csas,null,'\t'));
         });
     }
 }
-module.exports = csGitSecretCrypt
+module.exports = csAppSecrets;
