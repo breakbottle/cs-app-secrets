@@ -1,5 +1,5 @@
 const optionDefinitions = [
-    { name: 'init', alias: 'i', type: String },
+    { name: 'init', alias: 'i', type: String, multiple:true },
     { name: 'add', alias:'a',type: String, multiple: true},
     { name: 'get', alias: 'g', type: String,multiple:true},
     { name: 'revealAll', alias: 'r', type: String, multiple:true },
@@ -18,7 +18,11 @@ try{
     }
     //init
     if(options.hasOwnProperty('init')){
-        csgsc.init(options.init);
+        if(options.init.length >= 1){
+            csgsc.init(options.init[0],options.init[1]);
+        } else {
+            throw new Error(csgsc.messages.applicationNameRequired)
+        }
     }
 
     if(options.hasOwnProperty('add') && options.hasOwnProperty('secret')){

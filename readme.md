@@ -4,7 +4,11 @@
 If you need to be able to hide credentials and still use in repository without user management, this is for you. There are other full solutions for use management that woulds with commit and check out.
 
 
-## install - PENDING....
+## Prerequisites
+
+- Nodejs v8.5.0
+
+## Install - PENDING....
 
   `npm install cs-git-secret-crypt` 
 
