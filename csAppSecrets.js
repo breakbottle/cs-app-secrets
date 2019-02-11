@@ -6,7 +6,6 @@ const Confirm = require('prompt-confirm');
 
 class csAppSecrets{
     //TODO: rewrite in TypeScript as I want to use this now.
-    //TODO:docs: must install globally for it to look at cwd package.json else config file will need the full path of config file. 
     //defaultFile = 'package.json';//format for ts
     constructor(){
         this.defaultFile = 'package.json';
@@ -340,7 +339,7 @@ class csAppSecrets{
     /**
      * write JSON configs
      * @param {string} configFile 
-     * @param {string} contents strigify object
+     * @param {string} contents stringify object
      */
     writeConfigs(configFile,contents){
         fs.writeFile(configFile, JSON.stringify(contents,null,'\t'), function (err) {
