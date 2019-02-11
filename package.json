@@ -1,6 +1,6 @@
 {
   "name": "cs-app-secrets",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Basic options for saving credentials in public repository. Adds encrypted key/values to JSON file for saving into repo so as not to save actual credentials in the repo. Well used as a master key for build systems such as Jenkins etc & global secure.",
   "main": "csas.js",
   "dependencies": {
