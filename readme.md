@@ -8,9 +8,9 @@ If you need to be able to hide credentials and still use in repository without u
 
 - Nodejs v8.5.0
 
-## Install - PENDING....
+## Install 
 
-  `npm install cs-app-secrets` 
+  `npm install cs-app-secrets --save` 
 
 ## CLI - Command Line Options 
 
